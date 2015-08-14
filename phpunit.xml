@@ -4,7 +4,7 @@
 
     <testsuites>
          <testsuite name="pBench">
-            <directory suffix="Test.php">src/AppBundle/Tests</directory>
+            <directory suffix="Test.php">src/PBench/Bundle/AppBundle/Tests</directory>
         </testsuite>
     </testsuites>
 
