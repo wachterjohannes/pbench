@@ -2,17 +2,37 @@
 
 namespace PBench\Component\Session;
 
+use PBench\Component\Storage\StorageInterface;
+
 class Repository implements RepositoryInterface
 {
-    private $databaseMappers = [];
+    /**
+     * @var MapperInterface[]
+     */
+    private $mappers = [];
 
-    public function addDatabaseMapper($name, DatabaseMapperInterface $mapper)
+    /**
+     * @var StorageInterface
+     */
+    private $storage;
+
+    public function __construct(StorageInterface $storage)
     {
-        return $this->databaseMappers[$name] = $mapper;
+        $this->storage = $storage;
+    }
+
+    public function addDatabaseMapper($name, MapperInterface $mapper)
+    {
+        return $this->mappers[$name] = $mapper;
     }
 
     public function login($databaseName)
     {
-        return new DatabaseSession($this->databaseMappers[$databaseName]);
+        return new Session($databaseName, $this->mappers[$databaseName], $this->storage);
+    }
+
+    public function has($name)
+    {
+        return array_key_exists($name, $this->mappers);
     }
 }

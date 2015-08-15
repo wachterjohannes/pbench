@@ -5,7 +5,10 @@
 
     <services>
 
-        <service id="pbench.repository" class="PBench\Component\Session\Repository"/>
+        <service id="pbench.storage.mysql" class="PBench\Component\Storage\MysqlStorage"/>
+        <service id="pbench.repository" class="PBench\Component\Session\Repository">
+            <argument type="service" id="pbench.storage.mysql"/>
+        </service>
 
     </services>
 </container>

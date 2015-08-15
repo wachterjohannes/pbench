@@ -2,7 +2,7 @@
 
 namespace PBench\Component\Session;
 
-interface DatabaseSessionInterface
+interface MapperInterface
 {
 
 }

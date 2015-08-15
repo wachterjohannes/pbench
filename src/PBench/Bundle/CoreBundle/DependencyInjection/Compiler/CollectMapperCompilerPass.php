@@ -11,7 +11,7 @@ class CollectMapperCompilerPass implements CompilerPassInterface
     /**
      * @var string
      */
-    private $serviceId;
+    private $service;
 
     /**
      * @var string
@@ -23,9 +23,9 @@ class CollectMapperCompilerPass implements CompilerPassInterface
      */
     private $aliasName;
 
-    public function __construct($serviceId, $tagName, $aliasName = 'alias')
+    public function __construct($service, $tagName, $aliasName = 'alias')
     {
-        $this->serviceId = $serviceId;
+        $this->service = $service;
         $this->tagName = $tagName;
         $this->aliasName = $aliasName;
     }
@@ -35,11 +35,11 @@ class CollectMapperCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasDefinition('acme_mailer.transport_chain')) {
+        if (!$container->hasDefinition($this->service)) {
             return;
         }
 
-        $definition = $container->getDefinition($this->serviceId);
+        $definition = $container->getDefinition($this->service);
         $taggedServices = $container->findTaggedServiceIds($this->tagName);
 
         foreach ($taggedServices as $id => $tags) {
@@ -48,7 +48,7 @@ class CollectMapperCompilerPass implements CompilerPassInterface
             foreach ($tags as $attributes) {
                 $definition->addMethodCall(
                     'addDatabaseMapper',
-                    array($reference, $attributes[$this->aliasName])
+                    array($attributes[$this->aliasName], $reference)
                 );
             }
         }

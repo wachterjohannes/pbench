@@ -2,9 +2,9 @@
 
 namespace PBench\Bundle\AppBundle\Session;
 
-use PBench\Component\Session\DatabaseMapperInterface;
+use PBench\Component\Session\MapperInterface;
 
-class TodoMapper implements DatabaseMapperInterface
+class TodoMapper implements MapperInterface
 {
 
 }
